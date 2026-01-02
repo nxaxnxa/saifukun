@@ -359,14 +359,14 @@
                 checkNotificationStatus();
                 showModal(
                     "設定成功！", 
-                    `財布君已經記下來了！<br>每天 <span class="text-caramel font-bold">${state.reminderTime}</span> 會準時敲敲門提醒您喔！٩(ˊ奪ˋ*)و`, 
+                    `財布君已經記下來了！<br>每天 <span class="text-caramel font-bold">${state.reminderTime}</span> 會準時提醒您喔！٩(ˊᗜˋ*)و`, 
                     false,
                     "太棒了"
                 );
             } else { 
                 showModal(
                     "權限被拒絕 (´･_･`)", 
-                    "錢錢需要您的許可才能發送通知。<br>請到系統設定中允許權限，<br>財布君才能準時找您唷！", 
+                    "財布君需要您的許可才能發送通知。<br>請到系統設定中允許權限，<br>財布君才能準時找您唷！", 
                     false,
                     "我知道了"
                 );
@@ -402,7 +402,7 @@
             const now = new Date();
             const currentTime = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
             if (currentTime === state.reminderTime) {
-                new Notification("存錢時間到囉！٩(ˊ奪ˋ*)و", { body: "今天也要乖乖的把錢錢存下來！(و'ω')و" });
+                new Notification("存錢時間到囉！- ̗̀( ˶^ᵕ'˶)b", { body: "今天也要乖乖的把錢錢存下來！(و'ω')و" });
             }
         }
 
@@ -493,7 +493,7 @@
                 desc.innerHTML = `要餵食 $${amount} 元給財布君嗎？<br>確認後財布君就會把它吃進去哦！<br>(๑⃙⃘´༥\`๑⃙⃘)`;
             } else if (type === 'Idol') {
                 title.innerText = "注入應援基金";
-                desc.innerHTML = `財布君將幫您保管 <span class="text-cocoa font-bold">$${amount}</span> 應援基金！٩(ˊ奪ˋ*)و`;
+                    desc.innerHTML = `財布君將幫您保管 <span class="text-cocoa font-bold">$${amount}</span> 應援基金！٩(ˊᗜˋ*)و`;
                 cancelBtn.classList.add('hidden');
                 confirmBtn.innerText = "請幫我保管！";
             }
