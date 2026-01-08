@@ -13,12 +13,48 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;700&family=Noto+Sans+TC:wght@500;700&display=swap" rel="stylesheet">
     <style>
+        /* 基礎變數：暖心焦糖 */
         :root {
             --cream: #FFFDF9;
             --latte: #F5EBE0;
             --caramel: #D4A373;
-            --cocoa: #5E3008; 
-            --soft-brown: #8E735B;
+            --cocoa: #3D2311; 
+            --soft-brown: #6D4C41; 
+            --accent-glow: rgba(212, 163, 115, 0.3);
+            --card-border: rgba(212, 163, 115, 0.15);
+        }
+
+        /* 浪漫粉櫻 */
+        body.theme-pink {
+            --latte: #FFF0F3;
+            --caramel: #FFB3C1;
+            --cocoa: #5C1D27; 
+            --soft-brown: #8E4453; 
+            --cream: #FFFFFF;
+            --accent-glow: rgba(255, 179, 193, 0.4);
+            --card-border: rgba(255, 179, 193, 0.2);
+        }
+
+        /* 清爽海洋 */
+        body.theme-dark {
+            --latte: #E0FBFC; 
+            --caramel: #3D5A80; 
+            --cocoa: #293241; 
+            --soft-brown: #566E8F; 
+            --cream: #F8FDFF;
+            --accent-glow: rgba(61, 90, 128, 0.2);
+            --card-border: rgba(61, 90, 128, 0.1);
+        }
+
+        /* 森林大地 */
+        body.theme-green {
+            --latte: #DFE8D3; 
+            --caramel: #82A081;
+            --cocoa: #1B3022; 
+            --soft-brown: #3E5444; 
+            --cream: #F4F9F1;
+            --accent-glow: rgba(130, 160, 129, 0.4);
+            --card-border: rgba(130, 160, 129, 0.2);
         }
 
         body {
@@ -27,14 +63,70 @@
             color: var(--cocoa);
             -webkit-tap-highlight-color: transparent;
             overflow-x: hidden;
+            transition: all 0.4s ease;
         }
 
         .kawaii-card {
             background: var(--cream);
             border-radius: 30px;
-            box-shadow: 0 10px 25px rgba(96, 56, 19, 0.08);
-            border: 2px solid #FFFFFF;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+            border: 2px solid var(--card-border);
             position: relative;
+            transition: background 0.4s ease, border 0.4s ease;
+        }
+
+        .main-nav-container {
+            position: relative;
+            display: flex;
+            width: 100%;
+            justify-content: space-around;
+            margin-top: 32px;
+            border-bottom: 1px solid var(--accent-glow);
+        }
+
+        .main-nav-btn {
+            position: relative;
+            flex: 1;
+            padding: 12px 0;
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--soft-brown);
+            opacity: 0.5;
+            transition: all 0.3s ease;
+            text-align: center;
+            z-index: 10;
+        }
+
+        .main-nav-btn.active {
+            opacity: 1;
+            color: var(--cocoa);
+        }
+
+        .nav-underline {
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            width: 33.33%; 
+            height: 3px;
+            background: var(--caramel);
+            border-radius: 10px;
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 20;
+        }
+
+        .sub-nav-btn {
+            padding: 8px 16px;
+            font-size: 12px;
+            font-weight: 700;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+            color: var(--soft-brown);
+            border: 1px solid transparent;
+        }
+        .sub-nav-btn.active {
+            background: var(--cocoa);
+            color: var(--cream);
+            box-shadow: 0 4px 10px var(--accent-glow);
         }
 
         .savings-grid {
@@ -45,7 +137,7 @@
 
         .grid-item {
             aspect-ratio: 1 / 1;
-            background: #FFFFFF;
+            background: var(--cream);
             border-radius: 18px;
             display: flex;
             flex-direction: column;
@@ -53,7 +145,7 @@
             justify-content: center;
             font-size: 10px;
             transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            border: 1.5px solid #F0EAD6;
+            border: 1.5px solid var(--accent-glow);
             color: var(--soft-brown);
             cursor: pointer;
         }
@@ -61,22 +153,9 @@
         .grid-item.completed {
             background-color: var(--caramel);
             border-color: var(--caramel);
-            color: #FFFFFF; 
+            color: var(--cream);
             transform: scale(0.95);
             cursor: default;
-        }
-
-        .nav-item {
-            transition: all 0.3s ease;
-            color: var(--cocoa);
-            opacity: 0.4;
-            font-weight: 700;
-        }
-        .nav-item.nav-active {
-            opacity: 1;
-            background-color: var(--cocoa);
-            color: var(--cream);
-            box-shadow: 0 4px 10px rgba(96, 56, 19, 0.2);
         }
 
         .modal {
@@ -100,7 +179,7 @@
             justify-content: center;
         }
 
-        .base-heart { fill: #EAE0D5; }
+        .base-heart { fill: var(--latte); opacity: 0.8; }
         .fill-heart { fill: var(--caramel); transition: all 1s cubic-bezier(0.4, 0, 0.2, 1); }
 
         .heart-particle {
@@ -111,7 +190,7 @@
             pointer-events: none;
             z-index: 9999;
             color: var(--caramel);
-            filter: drop-shadow(0 0 12px rgba(212, 163, 115, 0.6));
+            filter: drop-shadow(0 0 12px var(--accent-glow));
             opacity: 0;
         }
 
@@ -126,38 +205,153 @@
         .fly-to-target { transition: all 0.8s cubic-bezier(0.5, 0, 0.5, 1); }
         .btn-hover:active { transform: scale(0.95); }
 
-        .settings-panel {
-            background: #FFFFFF;
+        .ledger-item {
+            background: var(--cream);
             border-radius: 20px;
-            padding: 20px;
-            border: 1.5px solid #F0EAD6;
+            padding: 14px 18px;
+            border: 1px solid var(--card-border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+            transition: all 0.4s ease;
+        }
+
+        .type-btn {
+            flex: 1;
+            padding: 12px;
+            border-radius: 16px;
+            font-size: 14px;
+            font-weight: 700;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+        .type-btn.income { background: rgba(34, 197, 94, 0.1); color: #166534; }
+        .type-btn.expense { background: rgba(239, 68, 68, 0.1); color: #991b1b; }
+        .type-btn.active.income { background: #22c55e; color: white; box-shadow: 0 4px 12px rgba(34, 197, 94, 0.3); }
+        .type-btn.active.expense { background: #ef4444; color: white; box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3); }
+        
+        .ledger-input-group {
+            background: var(--cream);
+            border-radius: 28px;
+            padding: 24px;
+            border: 2px solid var(--card-border);
+            transition: all 0.4s ease;
+        }
+
+        .custom-input {
+            background: rgba(0,0,0,0.04);
+            border: none;
+            border-radius: 16px;
+            padding: 14px;
+            color: var(--cocoa);
+            transition: all 0.3s ease;
+        }
+        .custom-input:focus {
+            background: var(--latte);
+            box-shadow: inset 0 0 0 2px var(--caramel);
+        }
+
+        .theme-swatch {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 3px solid var(--cream);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            cursor: pointer;
+        }
+        .theme-swatch.active {
+            transform: scale(1.2);
+            border-color: var(--caramel);
+            box-shadow: 0 0 15px var(--caramel);
+        }
+
+        /* 改版後的每月總結卡片樣式 */
+        .summary-card-v2 {
+            background: var(--cream);
+            border-radius: 28px;
+            padding: 24px;
+            border: 2px solid var(--card-border);
+            position: relative;
+            overflow: hidden;
+        }
+        .summary-card-v2::before {
+            content: '';
+            position: absolute;
+            top: 0; right: 0;
+            width: 100px; height: 100px;
+            background: var(--caramel);
+            opacity: 0.05;
+            border-radius: 0 0 0 100%;
+        }
+        .stat-progress-bg {
+            height: 8px;
+            background: rgba(0,0,0,0.05);
+            border-radius: 4px;
+            overflow: hidden;
+            margin-top: 8px;
+        }
+        .stat-progress-fill {
+            height: 100%;
+            background: var(--caramel);
+            transition: width 1s ease;
+        }
+
+        .month-selector-v2 {
+            background: var(--latte);
+            padding: 6px 12px;
+            border-radius: 12px;
+            color: var(--cocoa);
+            font-weight: 700;
+            font-size: 13px;
+            border: none;
+            outline: none;
+            cursor: pointer;
         }
     </style>
 </head>
-<body class="pb-36">
+<body class="pb-10">
 
+    <!-- 總額頭部 -->
     <header class="p-8 pt-12 flex flex-col items-center">
         <div class="relative flex items-center gap-2">
-            <span class="text-[11px] font-bold tracking-[0.2em] text-stone-400 uppercase">TOTAL SAVINGS</span>
-            <div class="w-3 h-3 text-caramel opacity-80">
+            <span class="text-[11px] font-bold tracking-[0.2em] opacity-60 uppercase">TOTAL SAVINGS</span>
+            <div class="w-3 h-3 text-caramel">
                 <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
             </div>
         </div>
         <div class="flex items-baseline gap-1 mt-1">
-            <span class="text-5xl font-bold tracking-tight text-cocoa" id="header-total">0</span>
+            <span class="text-5xl font-bold tracking-tight" id="header-total">0</span>
             <span class="text-xs font-bold text-caramel uppercase">TWD</span>
         </div>
+
+        <nav class="main-nav-container">
+            <button onclick="switchMainPage('savings')" id="main-nav-savings" class="main-nav-btn active">存錢計畫</button>
+            <button onclick="switchMainPage('ledger')" id="main-nav-ledger" class="main-nav-btn">日常記帳</button>
+            <button onclick="switchMainPage('settings')" id="main-nav-settings" class="main-nav-btn">系統設定</button>
+            <div id="nav-underline" class="nav-underline"></div>
+        </nav>
     </header>
 
-    <main class="px-6 space-y-6">
-        <!-- Tab 1: 50元區域 -->
+    <!-- 第一分頁：存錢計畫 -->
+    <main id="page-savings" class="px-6 space-y-6">
+        <div class="flex justify-center gap-2 mb-2">
+            <button onclick="switchTab(1)" id="sub-nav-1" class="sub-nav-btn active">50元零錢</button>
+            <button onclick="switchTab(2)" id="sub-nav-2" class="sub-nav-btn">365天挑戰</button>
+            <button onclick="switchTab(3)" id="sub-nav-3" class="sub-nav-btn">偶像應援</button>
+        </div>
+
         <section id="pane-1" class="tab-pane">
             <div class="kawaii-card p-6 mb-6 flex items-center justify-between">
                 <div class="flex-1">
-                    <h2 class="text-lg font-bold text-cocoa mb-1">50元零錢罐</h2>
+                    <h2 class="text-lg font-bold mb-1">50元零錢罐</h2>
                     <div class="flex flex-col">
                         <span class="text-2xl font-bold text-caramel" id="m1-percentage">0%</span>
-                        <span class="text-[10px] font-bold text-stone-400 uppercase tracking-widest" id="m1-days-count">已完成 0/365天</span>
+                        <span class="text-[10px] font-bold opacity-60 uppercase tracking-widest" id="m1-days-count">已完成 0/365天</span>
                     </div>
                 </div>
                 <div class="heart-filling-container" id="heart-target-1">
@@ -168,18 +362,17 @@
                     </svg>
                 </div>
             </div>
-            <div id="m1-grid" class="savings-grid"></div>
+            <div id="m1-grid" class="savings-grid pb-20"></div>
         </section>
 
-        <!-- Tab 2: 365天區域 -->
         <section id="pane-2" class="tab-pane hidden">
             <div class="kawaii-card p-6 mb-6 flex items-center justify-between">
                 <div>
-                    <p class="text-[10px] font-bold tracking-widest uppercase text-stone-400">每日挑戰</p>
-                    <h2 class="text-2xl font-bold text-cocoa">365天存錢罐</h2>
+                    <p class="text-[10px] font-bold tracking-widest uppercase opacity-60">每日挑戰</p>
+                    <h2 class="text-2xl font-bold">365天存錢罐</h2>
                     <div class="mt-2 flex items-center gap-2">
                         <span class="text-3xl font-bold text-caramel" id="m2-total">0</span>
-                        <span class="text-[10px] text-soft-brown font-bold uppercase">累計金額</span>
+                        <span class="text-[10px] opacity-60 font-bold uppercase">累計金額</span>
                     </div>
                 </div>
                 <div class="heart-filling-container" id="heart-target-2">
@@ -190,14 +383,13 @@
                     </svg>
                 </div>
             </div>
-            <div id="m2-grid" class="savings-grid"></div>
+            <div id="m2-grid" class="savings-grid pb-20"></div>
         </section>
 
-        <!-- Tab 3: 偶像區域 -->
         <section id="pane-3" class="tab-pane hidden">
             <div class="kawaii-card p-8 mb-6">
                 <div class="flex justify-between items-center mb-6">
-                    <input id="idol-name" type="text" placeholder="輸入偶像名稱" class="flex-1 bg-transparent border-none focus:ring-0 text-xl font-bold text-cocoa placeholder:text-stone-300">
+                    <input id="idol-name" type="text" placeholder="輸入偶像名稱" class="flex-1 bg-transparent border-none focus:ring-0 text-xl font-bold placeholder:opacity-30">
                     <div class="heart-filling-container" id="heart-target-3">
                         <svg viewBox="0 0 24 24" width="65" height="65">
                             <defs><clipPath id="clip-m3"><rect id="m3-fill-rect" x="0" y="24" width="24" height="0" /></clipPath></defs>
@@ -206,375 +398,489 @@
                         </svg>
                     </div>
                 </div>
-
-                <div class="my-6 py-6 border-y border-dashed border-latte text-center">
+                <div class="my-6 py-6 border-y border-dashed border-stone-200 text-center">
                     <div id="goal-ui-setup" class="flex flex-col items-center">
-                        <p class="text-[10px] font-bold text-stone-400 mb-4 tracking-widest uppercase">設定目標金額</p>
+                        <p class="text-[10px] font-bold opacity-60 mb-4 tracking-widest uppercase">設定目標金額</p>
                         <div class="flex items-center gap-2">
                             <span class="text-xl font-bold text-caramel">$</span>
-                            <input id="goal-input" type="number" placeholder="0000" class="w-28 bg-transparent border-none focus:ring-0 text-2xl font-bold text-center text-cocoa">
+                            <input id="goal-input" type="number" placeholder="0000" class="w-28 bg-transparent border-none focus:ring-0 text-2xl font-bold text-center">
                             <button onclick="askConfirmGoal()" class="bg-cocoa text-cream text-[10px] font-bold px-4 py-2 rounded-xl btn-hover">設定</button>
                         </div>
                     </div>
                     <div id="goal-ui-locked" class="hidden flex flex-col items-center">
                         <p class="text-[10px] font-bold text-caramel mb-2 tracking-widest uppercase">應援累積中</p>
-                        <h2 class="text-5xl font-bold text-cocoa" id="m3-total-display">0</h2>
-                        <p id="goal-diff-text" class="text-[11px] text-cocoa mt-2 font-bold"></p>
+                        <h2 class="text-5xl font-bold" id="m3-total-display">0</h2>
+                        <p id="goal-diff-text" class="text-[11px] mt-2 font-bold"></p>
                     </div>
                 </div>
-
-                <div class="grid grid-cols-2 gap-3">
+                <div class="grid grid-cols-2 gap-3 pb-10">
                     <button onclick="askConfirm('Idol', 10, 'Story')" class="p-4 bg-latte/40 rounded-2xl text-left btn-hover border border-white">
                         <p class="text-[9px] font-bold text-caramel mb-1 uppercase">Story</p>
-                        <p class="text-xs font-bold text-cocoa">限時動態</p>
-                        <p class="text-[10px] text-soft-brown font-bold mt-1">$10</p>
+                        <p class="text-xs font-bold">限時動態</p>
+                        <p class="text-[10px] opacity-60 font-bold mt-1">$10</p>
                     </button>
                     <button onclick="askConfirm('Idol', 30, 'FC')" class="p-4 bg-latte/40 rounded-2xl text-left btn-hover border border-white">
                         <p class="text-[9px] font-bold text-caramel mb-1 uppercase">FC</p>
-                        <p class="text-xs font-bold text-cocoa">FC 更新</p>
-                        <p class="text-[10px] text-soft-brown font-bold mt-1">$30</p>
+                        <p class="text-xs font-bold">FC 更新</p>
+                        <p class="text-[10px] opacity-60 font-bold mt-1">$30</p>
                     </button>
                     <button onclick="askConfirm('Idol', 50, 'Post')" class="p-4 bg-latte/40 rounded-2xl text-left btn-hover border border-white">
                         <p class="text-[9px] font-bold text-caramel mb-1 uppercase">Post</p>
-                        <p class="text-xs font-bold text-cocoa">發布貼文</p>
-                        <p class="text-[10px] text-soft-brown font-bold mt-1">$50</p>
+                        <p class="text-xs font-bold">發布貼文</p>
+                        <p class="text-[10px] opacity-60 font-bold mt-1">$50</p>
                     </button>
                     <button onclick="askConfirm('Idol', 100, 'Live')" class="p-4 bg-latte/40 rounded-2xl text-left btn-hover border border-white">
                         <p class="text-[9px] font-bold text-caramel mb-1 uppercase">Live</p>
-                        <p class="text-xs font-bold text-cocoa">影音直播</p>
-                        <p class="text-[10px] text-soft-brown font-bold mt-1">$100</p>
-                    </button>
-                </div>
-            </div>
-        </section>
-
-        <!-- Tab 4: 設定區域 -->
-        <section id="pane-4" class="tab-pane hidden">
-            <div class="space-y-6">
-                <div class="kawaii-card p-8">
-                    <h3 class="text-xs font-bold text-caramel uppercase tracking-widest mb-4">每日存錢提醒</h3>
-                    <div class="settings-panel space-y-4">
-                        <div class="flex items-center justify-between mb-2">
-                            <span class="text-sm font-bold text-cocoa">提醒時間</span>
-                            <input type="time" id="reminder-time" class="bg-latte/50 px-3 py-1 rounded-lg border-none font-bold text-cocoa focus:ring-0">
-                        </div>
-                        <button id="notification-toggle" onclick="toggleNotifications()" class="w-full py-4 rounded-2xl text-xs font-bold uppercase transition-all btn-hover border border-latte text-cocoa bg-white">
-                            開啟提醒功能
-                        </button>
-                        
-                        <div class="space-y-4 pt-4 border-t border-dashed border-latte">
-                            <p class="text-[11px] text-soft-brown font-bold italic text-center">財布君會準時提醒您存錢唷！(و'ω')و</p>
-                            <div class="bg-latte/30 p-3 rounded-xl text-left">
-                                <p class="text-[10px] text-stone-500 font-bold leading-relaxed">
-                                    • 提醒功能需在 HTTPS 環境下運作。<br>
-                                    • 建議將此網頁「加入主畫面」後開啟。
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="kawaii-card p-8 border-red-100">
-                    <h3 class="text-xs font-bold text-red-400 uppercase tracking-widest mb-4">危險區域</h3>
-                    <button onclick="resetData()" class="w-full py-4 bg-red-50 text-red-400 rounded-2xl text-xs font-bold uppercase tracking-widest btn-hover border border-red-100">
-                        清空所有儲蓄紀錄
+                        <p class="text-xs font-bold">影音直播</p>
+                        <p class="text-[10px] opacity-60 font-bold mt-1">$100</p>
                     </button>
                 </div>
             </div>
         </section>
     </main>
 
-    <nav class="fixed bottom-10 left-1/2 -translate-x-1/2 w-[90%] max-w-sm h-14 bg-white/60 backdrop-blur-xl rounded-full flex justify-around items-center px-2 z-40 shadow-2xl border border-white/50">
-        <button onclick="switchTab(1)" id="n-1" class="nav-item nav-active flex-1 h-10 mx-1 rounded-full flex items-center justify-center text-[11px] uppercase">50.</button>
-        <button onclick="switchTab(2)" id="n-2" class="nav-item flex-1 h-10 mx-1 rounded-full flex items-center justify-center text-[11px] uppercase">365.</button>
-        <button onclick="switchTab(3)" id="n-3" class="nav-item flex-1 h-10 mx-1 rounded-full flex items-center justify-center text-[11px] uppercase">Idol.</button>
-        <button onclick="switchTab(4)" id="n-4" class="nav-item flex-1 h-10 mx-1 rounded-full flex items-center justify-center text-[11px] uppercase">Set.</button>
-    </nav>
+    <!-- 第二分頁：日常記帳 (改版版) -->
+    <main id="page-ledger" class="px-6 space-y-6 hidden">
+        <!-- 數據統計卡片 v2 -->
+        <div class="summary-card-v2 shadow-lg">
+            <div class="flex justify-between items-start mb-6">
+                <div>
+                    <h3 class="text-[11px] font-bold opacity-40 uppercase tracking-[0.2em] mb-1">Monthly Analytics</h3>
+                    <select id="summary-month-select" onchange="renderSummary()" class="month-selector-v2"></select>
+                </div>
+                <div class="text-right">
+                    <p id="summary-net-label" class="text-[9px] font-bold opacity-40 uppercase mb-1">Net Balance</p>
+                    <p id="summary-net" class="text-xl font-bold">$0</p>
+                </div>
+            </div>
+            
+            <div class="grid grid-cols-2 gap-6">
+                <div class="space-y-1">
+                    <div class="flex justify-between items-baseline">
+                        <span class="text-[10px] font-bold opacity-60 uppercase">支出</span>
+                        <span id="summary-expense" class="text-sm font-bold text-red-500">$0</span>
+                    </div>
+                    <div class="stat-progress-bg">
+                        <div id="exp-progress" class="stat-progress-fill bg-red-400" style="width: 0%"></div>
+                    </div>
+                </div>
+                <div class="space-y-1">
+                    <div class="flex justify-between items-baseline">
+                        <span class="text-[10px] font-bold opacity-60 uppercase">收入</span>
+                        <span id="summary-income" class="text-sm font-bold text-green-600">$0</span>
+                    </div>
+                    <div class="stat-progress-bg">
+                        <div id="inc-progress" class="stat-progress-fill bg-green-400" style="width: 0%"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-    <!-- 對話框 Modal -->
+        <!-- 輸入區域 -->
+        <div class="ledger-input-group shadow-sm">
+            <div class="flex gap-3 mb-5 p-1 bg-black/5 rounded-2xl">
+                <button id="type-exp" onclick="setLedgerType('expense')" class="type-btn expense active">支出</button>
+                <button id="type-inc" onclick="setLedgerType('income')" class="type-btn income">收入</button>
+            </div>
+            <div class="space-y-4">
+                <div class="flex gap-3">
+                    <div class="relative w-28">
+                        <select id="ledger-cat" class="w-full custom-input text-xs font-bold appearance-none">
+                            <option value="飲食">🍱 飲食</option>
+                            <option value="交通">🚗 交通</option>
+                            <option value="購物">🛍️ 購物</option>
+                            <option value="娛樂">🎮 娛樂</option>
+                            <option value="薪水">💰 薪水</option>
+                            <option value="其他">✨ 其他</option>
+                        </select>
+                        <div class="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none opacity-30">
+                            <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><path d="M7 10l5 5 5-5z"/></svg>
+                        </div>
+                    </div>
+                    <input id="ledger-amt" type="number" inputmode="numeric" placeholder="金額" class="flex-1 custom-input text-sm font-bold">
+                </div>
+                <input id="ledger-note" type="text" placeholder="寫點備註吧..." class="w-full custom-input text-sm font-bold">
+                <button onclick="addLedger()" class="w-full py-4 bg-cocoa text-cream rounded-2xl text-[13px] font-bold uppercase tracking-widest btn-hover shadow-lg mt-2">
+                    新增這筆紀錄
+                </button>
+            </div>
+        </div>
+
+        <!-- 歷史清單 -->
+        <div class="space-y-4">
+            <div class="flex items-center justify-between px-2">
+                <h3 class="text-[11px] font-bold opacity-40 tracking-[0.2em] uppercase">Recent Transactions</h3>
+                <span id="ledger-count" class="text-[10px] opacity-40 font-bold italic"></span>
+            </div>
+            <div id="ledger-list" class="space-y-3 pb-10">
+                <!-- 由 JS 渲染 -->
+            </div>
+        </div>
+    </main>
+
+    <!-- 第三分頁：系統設定 -->
+    <main id="page-settings" class="px-6 space-y-6 hidden">
+        <div class="kawaii-card p-8">
+            <h3 class="text-xs font-bold text-caramel uppercase tracking-widest mb-6">主題配色</h3>
+            <div class="flex justify-around items-center">
+                <div class="flex flex-col items-center gap-3">
+                    <button id="swatch-default" onclick="setTheme('')" class="theme-swatch active" style="background: #3D2311;"></button>
+                    <span class="text-[10px] font-bold opacity-60">暖心焦糖</span>
+                </div>
+                <div class="flex flex-col items-center gap-3">
+                    <button id="swatch-pink" onclick="setTheme('theme-pink')" class="theme-swatch" style="background: #FFB3C1;"></button>
+                    <span class="text-[10px] font-bold opacity-60">浪漫粉櫻</span>
+                </div>
+                <div class="flex flex-col items-center gap-3">
+                    <button id="swatch-dark" onclick="setTheme('theme-dark')" class="theme-swatch" style="background: #3D5A80;"></button>
+                    <span class="text-[10px] font-bold opacity-60">清爽海洋</span>
+                </div>
+                <div class="flex flex-col items-center gap-3">
+                    <button id="swatch-green" onclick="setTheme('theme-green')" class="theme-swatch" style="background: #1B3022;"></button>
+                    <span class="text-[10px] font-bold opacity-60">森林大地</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="kawaii-card p-8">
+            <h3 class="text-xs font-bold text-caramel uppercase tracking-widest mb-4">每日存錢提醒</h3>
+            <div class="bg-black/5 rounded-2xl p-5 space-y-4">
+                <div class="flex items-center justify-between mb-2">
+                    <span class="text-sm font-bold">提醒時間</span>
+                    <input type="time" id="reminder-time" class="bg-white/10 px-3 py-1 rounded-lg border-none font-bold focus:ring-0">
+                </div>
+                <button id="notification-toggle" onclick="toggleNotifications()" class="w-full py-4 rounded-2xl text-xs font-bold uppercase transition-all btn-hover border border-black/10">
+                    開啟提醒功能
+                </button>
+                <div class="space-y-1">
+                    <p class="text-[10px] text-stone-400 font-bold">• 提醒功能需在 HTTPS 環境下運作。</p>
+                    <p class="text-[10px] text-stone-400 font-bold">• 建議將此網頁「加入主畫面」後開啟。</p>
+                </div>
+                <p class="text-[13px] text-soft-brown font-bold italic text-center pt-2">財布君會準時提醒您唷！(و'ω')و</p>
+            </div>
+        </div>
+
+        <div class="kawaii-card p-8 border-red-500/20">
+            <h3 class="text-xs font-bold text-red-500 uppercase tracking-widest mb-4">危險區域</h3>
+            <button onclick="resetData()" class="w-full py-4 bg-red-500/5 text-red-600 rounded-2xl text-xs font-bold uppercase tracking-widest btn-hover border border-red-500/10">
+                清空所有儲蓄紀錄
+            </button>
+        </div>
+    </main>
+
+    <!-- Modal -->
     <div id="modal" class="modal fixed inset-0 flex items-center justify-center p-10">
-        <div class="absolute inset-0 bg-cocoa/30" onclick="closeModal()"></div>
+        <div class="absolute inset-0 bg-black/40" onclick="closeModal()"></div>
         <div class="kawaii-card w-full max-w-xs p-8 relative z-10 text-center mx-auto transform transition-all scale-100">
             <div id="modal-icon-container" class="absolute -top-10 left-1/2 -translate-x-1/2 bg-white rounded-full p-3 border-4 border-latte shadow-lg">
                 <svg id="modal-icon" viewBox="0 0 24 24" width="30" height="30" class="text-caramel"><path fill="currentColor" d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
             </div>
-            <h3 id="modal-title" class="text-sm font-bold text-cocoa mt-2 mb-3 tracking-widest"></h3>
-            <p id="modal-desc" class="text-xs text-soft-brown mb-8 leading-relaxed px-2"></p>
+            <h3 id="modal-title" class="text-sm font-bold mt-2 mb-3 tracking-widest"></h3>
+            <div id="modal-desc" class="text-xs opacity-80 mb-8 leading-relaxed px-2"></div>
             <div class="flex gap-4" id="modal-buttons">
-                <button id="modal-cancel-btn" onclick="closeModal()" class="flex-1 py-3 text-[11px] font-bold text-stone-300 uppercase tracking-widest">取消</button>
+                <button id="modal-cancel-btn" onclick="closeModal()" class="flex-1 py-3 text-[11px] font-bold opacity-50 uppercase tracking-widest">取消</button>
                 <button id="modal-btn" class="flex-[1.5] py-3 bg-cocoa text-cream rounded-2xl text-[11px] font-bold uppercase tracking-widest shadow-lg btn-hover">確認</button>
             </div>
         </div>
     </div>
 
     <script>
-        let state = { m1: [], m2: [], m3Total: 0, idolName: "", goal: 0, locked: false, activeTab: 1, reminderTime: "21:00", notificationsEnabled: false };
-        const KEY = 'caramel_heart_v26_classic';
+        let state = { 
+            m1: [], m2: [], m3Total: 0, idolName: "", goal: 0, locked: false, 
+            activeTab: 1, reminderTime: "21:00", notificationsEnabled: false,
+            mainPage: 'savings',
+            ledger: [], 
+            ledgerType: 'expense',
+            theme: '' 
+        };
+        const KEY = 'caramel_heart_v36_ledger_v2';
 
         function init() {
             const data = localStorage.getItem(KEY);
             if (data) state = JSON.parse(data);
+            
             document.getElementById('idol-name').value = state.idolName || "";
             document.getElementById('idol-name').oninput = (e) => { state.idolName = e.target.value; save(); };
             document.getElementById('reminder-time').value = state.reminderTime || "21:00";
             document.getElementById('reminder-time').onchange = (e) => { state.reminderTime = e.target.value; save(); };
+            
+            if (state.theme) setTheme(state.theme);
+            
+            populateMonthSelect();
             renderGrids();
+            renderLedger();
+            renderSummary();
             updateUI();
             checkNotificationStatus();
+            switchMainPage(state.mainPage || 'savings');
             switchTab(state.activeTab || 1);
             setInterval(checkReminder, 60000);
         }
 
         function save() { localStorage.setItem(KEY, JSON.stringify(state)); }
 
-        function checkNotificationStatus() {
-            const btn = document.getElementById('notification-toggle');
-            if (state.notificationsEnabled && Notification.permission === "granted") {
-                btn.innerText = "提醒已開啟 ✓";
-                btn.className = "w-full py-4 rounded-2xl text-xs font-bold uppercase bg-caramel text-white shadow-lg";
-            } else {
-                btn.innerText = "開啟提醒功能";
-                btn.className = "w-full py-4 rounded-2xl text-xs font-bold uppercase bg-white text-cocoa border border-latte";
-                state.notificationsEnabled = false;
-            }
-        }
-
-        async function toggleNotifications() {
-            if (state.notificationsEnabled) {
-                state.notificationsEnabled = false;
-                save();
-                checkNotificationStatus();
-                return;
-            }
-
-            if (!("Notification" in window)) {
-                showModal("提示", "此瀏覽器不支援提醒功能喔！", false);
-                return;
-            }
-
-            const permission = await Notification.requestPermission();
-            if (permission === "granted") {
-                state.notificationsEnabled = true;
-                save();
-                checkNotificationStatus();
-                showModal(
-                    "設定成功！", 
-                    `財布君已經記下來了！<br>每天 <span class="text-caramel font-bold">${state.reminderTime}</span> 會準時提醒您喔！٩(ˊᗜˋ*)و`, 
-                    false,
-                    "太棒了"
-                );
-            } else { 
-                showModal(
-                    "權限被拒絕 (´･_･`)", 
-                    "財布君需要您的許可才能發送通知。<br>請到系統設定中允許權限，<br>財布君才能準時找您唷！", 
-                    false,
-                    "我知道了"
-                );
-                state.notificationsEnabled = false;
-                save();
-                checkNotificationStatus();
-            }
-        }
-
-        function showModal(title, desc, showCancel = true, confirmText = "確認", onConfirm = null) {
-            const modal = document.getElementById('modal');
-            const icon = document.getElementById('modal-icon');
-            document.getElementById('modal-title').innerText = title;
-            document.getElementById('modal-desc').innerHTML = desc;
+        function setTheme(themeName) {
+            document.body.classList.remove('theme-pink', 'theme-dark', 'theme-green');
+            if (themeName) document.body.classList.add(themeName);
+            state.theme = themeName;
             
-            const cancelBtn = document.getElementById('modal-cancel-btn');
-            const confirmBtn = document.getElementById('modal-btn');
+            document.querySelectorAll('.theme-swatch').forEach(s => s.classList.remove('active'));
+            if (!themeName) document.getElementById('swatch-default').classList.add('active');
+            else if (themeName === 'theme-pink') document.getElementById('swatch-pink').classList.add('active');
+            else if (themeName === 'theme-dark') document.getElementById('swatch-dark').classList.add('active');
+            else if (themeName === 'theme-green') document.getElementById('swatch-green').classList.add('active');
+
+            save();
+            updateUI();
+        }
+
+        function switchMainPage(page) {
+            state.mainPage = page;
+            save();
+            document.getElementById('page-savings').classList.toggle('hidden', page !== 'savings');
+            document.getElementById('page-ledger').classList.toggle('hidden', page !== 'ledger');
+            document.getElementById('page-settings').classList.toggle('hidden', page !== 'settings');
             
-            if (showCancel) {
-                cancelBtn.classList.remove('hidden');
-            } else {
-                cancelBtn.classList.add('hidden');
-            }
+            document.querySelectorAll('.main-nav-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.id === `main-nav-${page}`);
+            });
+
+            const underline = document.getElementById('nav-underline');
+            if (page === 'savings') underline.style.transform = 'translateX(0%)';
+            else if (page === 'ledger') underline.style.transform = 'translateX(100%)';
+            else if (page === 'settings') underline.style.transform = 'translateX(200%)';
             
-            confirmBtn.innerText = confirmText;
-            confirmBtn.onclick = onConfirm || closeModal;
-            
-            modal.classList.add('active');
-        }
-
-        function checkReminder() {
-            if (!state.notificationsEnabled || Notification.permission !== "granted") return;
-            const now = new Date();
-            const currentTime = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
-            if (currentTime === state.reminderTime) {
-                new Notification("存錢時間到囉！- ̗̀( ˶^ᵕ'˶)b", { body: "今天也要乖乖的把錢錢存下來！(و'ω')و" });
+            if(page === 'ledger') {
+                populateMonthSelect();
+                renderSummary();
+                renderLedger();
             }
         }
 
-        function renderGrids() {
-            const g1 = document.getElementById('m1-grid');
-            if (g1) {
-                g1.innerHTML = '';
-                for(let i=1; i<=365; i++) {
-                    const done = state.m1.includes(i);
-                    const div = document.createElement('div');
-                    div.className = `grid-item ${done ? 'completed' : ''}`;
-                    div.innerHTML = `<span class="opacity-40 mb-0.5">D${i}</span><span class="font-bold">$50</span>`;
-                    if(!done) div.onclick = () => askConfirm('M1', 50, i);
-                    g1.appendChild(div);
-                }
-            }
-            const g2 = document.getElementById('m2-grid');
-            if (g2) {
-                g2.innerHTML = '';
-                for(let i=1; i<=365; i++) {
-                    const done = state.m2.includes(i);
-                    const div = document.createElement('div');
-                    div.className = `grid-item ${done ? 'completed' : ''}`;
-                    div.innerHTML = `<span class="opacity-40 mb-0.5">D${i}</span><span class="font-bold">$${i}</span>`;
-                    if(!done) div.onclick = () => askConfirm('M2', i, i);
-                    g2.appendChild(div);
-                }
-            }
-        }
-
-        function updateUI() {
-            const s1Count = (state.m1 || []).length;
-            const s1 = s1Count * 50;
-            const s1Perc = (s1Count / 365) * 100;
-            updateHeartFill('m1', s1Perc);
-            document.getElementById('m1-percentage').innerText = Math.round(s1Perc) + '%';
-            document.getElementById('m1-days-count').innerText = `已完成 ${s1Count}/365天`;
-
-            const s2 = (state.m2 || []).reduce((a,b)=>a+b, 0); 
-            const s2Total = (1 + 365) * 365 / 2;
-            const s2Perc = (s2 / s2Total) * 100;
-            updateHeartFill('m2', s2Perc);
-            document.getElementById('m2-total').innerText = s2.toLocaleString();
-
-            const s3 = state.m3Total || 0;
-            document.getElementById('m3-total-display').innerText = s3.toLocaleString();
-            if (state.locked && state.goal > 0) {
-                const s3Perc = Math.min(100, (s3 / state.goal) * 100);
-                updateHeartFill('m3', s3Perc);
-                document.getElementById('goal-ui-setup').classList.add('hidden');
-                document.getElementById('goal-ui-locked').classList.remove('hidden');
-                const diff = state.goal - s3;
-                document.getElementById('goal-diff-text').innerText = diff <= 0 ? `已達成目標！` : `還差 $${diff.toLocaleString()} 達成目標`;
-            } else {
-                updateHeartFill('m3', 0);
-                document.getElementById('goal-ui-setup').classList.remove('hidden');
-                document.getElementById('goal-ui-locked').classList.add('hidden');
-            }
-            document.getElementById('header-total').innerText = (s1 + s2 + s3).toLocaleString();
-        }
-
-        function updateHeartFill(id, percentage) {
-            const rect = document.getElementById(`${id}-fill-rect`);
-            if (rect) {
-                const height = (percentage / 100) * 24;
-                rect.setAttribute('y', 24 - height);
-                rect.setAttribute('height', height);
-            }
-        }
-
-        function askConfirm(type, amount, id) {
-            const modal = document.getElementById('modal');
-            const desc = document.getElementById('modal-desc');
-            const title = document.getElementById('modal-title');
-            const confirmBtn = document.getElementById('modal-btn');
-            const cancelBtn = document.getElementById('modal-cancel-btn');
-            const icon = document.getElementById('modal-icon');
-
-            icon.classList.remove('text-red-400');
-            icon.classList.add('text-caramel');
-
-            cancelBtn.classList.remove('hidden');
-            cancelBtn.innerText = "取消";
-            confirmBtn.innerText = "確認餵食";
-            title.innerText = "確認餵食";
-            
-            if (type === 'M1' || type === 'M2') {
-                desc.innerHTML = `要餵食 $${amount} 元給財布君嗎？<br>確認後財布君就會把它吃進去哦！<br>(๑⃙⃘´༥\`๑⃙⃘)`;
-            } else if (type === 'Idol') {
-                title.innerText = "注入應援基金";
-                    desc.innerHTML = `財布君將幫您保管 <span class="text-cocoa font-bold">$${amount}</span> 應援基金 <br> ٩(ˊᗜˋ*)و`;
-                cancelBtn.classList.add('hidden');
-                confirmBtn.innerText = "請幫我保管！";
-            }
-
-            modal.classList.add('active');
-            confirmBtn.onclick = () => {
-                if(type==='M1') { if(!state.m1.includes(id)) state.m1.push(id); }
-                else if(type==='M2') { if(!state.m2.includes(id)) state.m2.push(id); }
-                else if(type==='Idol') { state.m3Total += amount; }
-                save(); renderGrids(); updateUI(); closeModal();
-                triggerHeartEffect();
-            };
-        }
-
-        function askConfirmGoal() {
-            const val = parseInt(document.getElementById('goal-input').value);
-            if (!val || val <= 0) return;
-
-            showModal(
-                "目標確認", 
-                `確定設定目標金額為 <span class="text-caramel font-bold">$${val.toLocaleString()}</span> 嗎？<br><span class="text-[10px] text-red-400 font-bold">設定後在達成前不可更改哦！</span>`, 
-                true, 
-                "確定設定", 
-                () => {
-                    state.goal = val;
-                    state.locked = true;
-                    save();
-                    updateUI();
-                    closeModal();
-                }
-            );
-        }
-
-        function triggerHeartEffect() {
-            const targetId = `heart-target-${state.activeTab}`;
-            const targetHeart = document.getElementById(targetId);
-            if (!targetHeart) return;
-            const rect = targetHeart.getBoundingClientRect();
-            const p = document.createElement('div');
-            p.className = 'heart-particle pulse-active';
-            p.innerHTML = `<svg width="80" height="80" viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>`;
-            document.body.appendChild(p);
-            setTimeout(() => {
-                p.classList.replace('pulse-active', 'fly-to-target');
-                p.style.left = (rect.left + rect.width/2) + 'px';
-                p.style.top = (rect.top + rect.height/2) + 'px';
-                p.style.transform = 'translate(-50%,-50%) scale(0.1)';
-                p.style.opacity = '0';
-                setTimeout(() => p.remove(), 800);
-            }, 700);
-        }
-
-        function resetData() {
-            const icon = document.getElementById('modal-icon');
-            icon.classList.remove('text-caramel');
-            icon.classList.add('text-red-400');
-
-            showModal(
-                "確認清除嗎？(´;ω;`)", 
-                `財布君裡累積的點點滴滴<br>真的都要全部清空嗎？<br><span class="text-red-400 font-bold">此動作無法復原喔！</span>`, 
-                true, 
-                "忍痛清除", 
-                () => { 
-                    localStorage.removeItem(KEY); 
-                    location.reload(); 
-                }
-            );
-        }
-
-        function closeModal() { document.getElementById('modal').classList.remove('active'); }
-        
         function switchTab(idx) {
             state.activeTab = idx;
             save();
             document.querySelectorAll('.tab-pane').forEach((p,i) => p.classList.toggle('hidden', i+1 !== idx));
-            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('nav-active'));
-            document.getElementById(`n-${idx}`).classList.add('nav-active');
+            document.querySelectorAll('.sub-nav-btn').forEach(n => n.classList.remove('active'));
+            document.getElementById(`sub-nav-${idx}`).classList.add('active');
         }
 
+        function setLedgerType(type) {
+            state.ledgerType = type;
+            document.getElementById('type-exp').classList.toggle('active', type === 'expense');
+            document.getElementById('type-inc').classList.toggle('active', type === 'income');
+        }
+
+        function addLedger() {
+            const amt = parseInt(document.getElementById('ledger-amt').value);
+            const cat = document.getElementById('ledger-cat').value;
+            const note = document.getElementById('ledger-note').value;
+            if(!amt || amt <= 0) return;
+            const now = new Date();
+            const entry = { 
+                id: Date.now(), 
+                type: state.ledgerType, 
+                category: cat, 
+                amount: amt, 
+                note: note || cat, 
+                displayDate: now.toLocaleDateString('zh-TW', {month:'2-digit', day:'2-digit'}),
+                displayTime: now.toLocaleTimeString('zh-TW', {hour:'2-digit', minute:'2-digit', hour12: false}),
+                isoDate: now.toISOString()
+            };
+            state.ledger.unshift(entry); 
+            save(); 
+            renderLedger(); 
+            renderSummary();
+            updateUI();
+            
+            // 觸發一個簡單的小動畫效果
+            document.getElementById('ledger-amt').value = ''; 
+            document.getElementById('ledger-note').value = '';
+            
+            // 如果是支出，給一個簡單的視覺反饋
+            if(entry.type === 'expense') {
+                document.getElementById('exp-progress').parentElement.classList.add('animate-pulse');
+                setTimeout(() => document.getElementById('exp-progress').parentElement.classList.remove('animate-pulse'), 1000);
+            }
+        }
+
+        function populateMonthSelect() {
+            const select = document.getElementById('summary-month-select');
+            const currentVal = select.value;
+            select.innerHTML = '';
+            const months = new Set();
+            const now = new Date();
+            months.add(`${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`);
+            state.ledger.forEach(item => { const d = new Date(item.isoDate); months.add(`${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`); });
+            Array.from(months).sort().reverse().forEach(m => {
+                const opt = document.createElement('option'); opt.value = m;
+                const [y, mm] = m.split('-'); opt.innerText = `${y}年 ${mm}月`;
+                select.appendChild(opt);
+            });
+            if(currentVal && Array.from(months).includes(currentVal)) select.value = currentVal;
+        }
+
+        function renderSummary() {
+            const monthStr = document.getElementById('summary-month-select').value;
+            if(!monthStr) return;
+            const filtered = state.ledger.filter(item => { const d = new Date(item.isoDate); return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}` === monthStr; });
+            const income = filtered.filter(i => i.type === 'income').reduce((a,b) => a + b.amount, 0);
+            const expense = filtered.filter(i => i.type === 'expense').reduce((a,b) => a + b.amount, 0);
+            const net = income - expense;
+            
+            document.getElementById('summary-income').innerText = `$${income.toLocaleString()}`;
+            document.getElementById('summary-expense').innerText = `$${expense.toLocaleString()}`;
+            
+            const netEl = document.getElementById('summary-net');
+            netEl.innerText = `${net >= 0 ? '' : '-'}$${Math.abs(net).toLocaleString()}`;
+            netEl.className = `text-xl font-bold ${net >= 0 ? 'text-cocoa' : 'text-red-500'}`;
+            
+            // 進度條邏輯：支出佔總額（收+支）的比例，或是支出佔收入的比例
+            const total = (income + expense) || 1;
+            const expPerc = (expense / total) * 100;
+            const incPerc = (income / total) * 100;
+            
+            document.getElementById('exp-progress').style.width = expPerc + '%';
+            document.getElementById('inc-progress').style.width = incPerc + '%';
+        }
+
+        function renderLedger() {
+            const list = document.getElementById('ledger-list'); list.innerHTML = '';
+            const monthStr = document.getElementById('summary-month-select').value;
+            const filtered = state.ledger.filter(item => { const d = new Date(item.isoDate); return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}` === monthStr; });
+            document.getElementById('ledger-count').innerText = `${filtered.length} TRANSACTIONS`;
+            
+            if (filtered.length === 0) {
+                list.innerHTML = `<div class="p-10 text-center opacity-30 font-bold text-xs italic">尚無紀錄 (｡•́︿•̀｡)</div>`;
+                return;
+            }
+
+            filtered.forEach(item => {
+                const div = document.createElement('div'); div.className = 'ledger-item';
+                div.innerHTML = `
+                    <div class="flex items-center gap-4">
+                        <div class="w-12 h-12 rounded-2xl flex items-center justify-center text-xl ${item.type==='income'?'bg-green-500/10':'bg-red-500/10'}">${getCategoryEmoji(item.category)}</div>
+                        <div>
+                            <p class="text-[14px] font-bold">${item.note}</p>
+                            <p class="text-[10px] opacity-40 font-bold uppercase tracking-tight">${item.displayDate} · ${item.displayTime}</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <span class="text-[15px] font-bold ${item.type==='income'?'text-green-600':'text-red-500'}">${item.type==='income'?'+':'-'}$${item.amount.toLocaleString()}</span>
+                        <button onclick="deleteLedger(${item.id})" class="w-8 h-8 rounded-full bg-black/5 flex items-center justify-center opacity-30 active:opacity-100 transition-opacity">
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M18 6L6 18M6 6l12 12"/></svg>
+                        </button>
+                    </div>`;
+                list.appendChild(div);
+            });
+        }
+
+        function getCategoryEmoji(cat) { const map = {'飲食':'🍱','交通':'🚗','購物':'🛍️','娛樂':'🎮','薪水':'💰','其他':'✨'}; return map[cat] || '✨'; }
+        
+        function deleteLedger(id) { 
+            state.ledger = state.ledger.filter(l => l.id !== id); 
+            save(); 
+            renderLedger(); 
+            renderSummary(); 
+            updateUI(); 
+        }
+        
+        function renderGrids() {
+            const g1 = document.getElementById('m1-grid'); g1.innerHTML = '';
+            for(let i=1; i<=365; i++) {
+                const done = state.m1.includes(i); const div = document.createElement('div'); div.className = `grid-item ${done ? 'completed' : ''}`;
+                div.innerHTML = `<span class="opacity-60 mb-0.5">D${i}</span><span class="font-bold">$50</span>`;
+                if(!done) div.onclick = () => askConfirm('M1', 50, i); g1.appendChild(div);
+            }
+            const g2 = document.getElementById('m2-grid'); g2.innerHTML = '';
+            for(let i=1; i<=365; i++) {
+                const done = state.m2.includes(i); const div = document.createElement('div'); div.className = `grid-item ${done ? 'completed' : ''}`;
+                div.innerHTML = `<span class="opacity-60 mb-0.5">D${i}</span><span class="font-bold">$${i}</span>`;
+                if(!done) div.onclick = () => askConfirm('M2', i, i); g2.appendChild(div);
+            }
+        }
+
+        function updateUI() {
+            const s1 = state.m1.length * 50; const s1Perc = (state.m1.length / 365) * 100;
+            updateHeartFill('m1', s1Perc); document.getElementById('m1-percentage').innerText = Math.round(s1Perc) + '%';
+            document.getElementById('m1-days-count').innerText = `已完成 ${state.m1.length}/365天`;
+            
+            const s2 = state.m2.reduce((a,b)=>a+b, 0); const s2Total = (1 + 365) * 365 / 2;
+            updateHeartFill('m2', (s2 / s2Total) * 100); document.getElementById('m2-total').innerText = s2.toLocaleString();
+            
+            const s3 = state.m3Total || 0; document.getElementById('m3-total-display').innerText = s3.toLocaleString();
+            if (state.locked && state.goal > 0) {
+                updateHeartFill('m3', Math.min(100, (s3 / state.goal) * 100));
+                document.getElementById('goal-ui-setup').classList.add('hidden'); document.getElementById('goal-ui-locked').classList.remove('hidden');
+                const diff = state.goal - s3; document.getElementById('goal-diff-text').innerText = diff <= 0 ? `已達成目標！` : `還差 $${diff.toLocaleString()} 達成目標`;
+            } else { 
+                updateHeartFill('m3', 0); 
+                document.getElementById('goal-ui-setup').classList.remove('hidden'); 
+                document.getElementById('goal-ui-locked').classList.add('hidden'); 
+            }
+            
+            const ledgerBalance = state.ledger.reduce((acc, curr) => curr.type === 'income' ? acc + curr.amount : acc - curr.amount, 0);
+            document.getElementById('header-total').innerText = (s1 + s2 + s3 + ledgerBalance).toLocaleString();
+        }
+
+        function updateHeartFill(id, percentage) { const rect = document.getElementById(`${id}-fill-rect`); if (rect) { const height = (percentage / 100) * 24; rect.setAttribute('y', 24 - height); rect.setAttribute('height', height); } }
+        
+        function askConfirm(type, amount, id) {
+            const modal = document.getElementById('modal'); const desc = document.getElementById('modal-desc'); const title = document.getElementById('modal-title');
+            const confirmBtn = document.getElementById('modal-btn'); const cancelBtn = document.getElementById('modal-cancel-btn'); const icon = document.getElementById('modal-icon');
+            icon.classList.remove('text-red-500'); icon.classList.add('text-caramel'); cancelBtn.classList.remove('hidden'); cancelBtn.innerText = "取消"; confirmBtn.innerText = "確認餵食"; title.innerText = "確認餵食";
+            if (type === 'M1' || type === 'M2') { desc.innerHTML = `要餵食 $${amount} 元給財布君嗎？<br>確認後財布君就會把它吃進去哦！<br>(๑⃙⃘´༥\`๑⃙⃘)`; }
+            else if (type === 'Idol') { title.innerText = "注入應援基金"; desc.innerHTML = `財布君將幫您保管 <span class="text-caramel font-bold">$${amount}</span> 應援基金 <br> ٩(ˊᗜˋ*)و`; cancelBtn.classList.add('hidden'); confirmBtn.innerText = "請幫我保管！"; }
+            modal.classList.add('active');
+            confirmBtn.onclick = () => { if(type==='M1') { if(!state.m1.includes(id)) state.m1.push(id); } else if(type==='M2') { if(!state.m2.includes(id)) state.m2.push(id); } else if(type==='Idol') { state.m3Total += amount; } save(); renderGrids(); updateUI(); closeModal(); triggerHeartEffect(); };
+        }
+
+        function askConfirmGoal() {
+            const val = parseInt(document.getElementById('goal-input').value); if (!val || val <= 0) return;
+            showModal("目標確認", `確定設定目標金額為 <span class="text-caramel font-bold">$${val.toLocaleString()}</span> 嗎？<br><span class="text-[10px] text-red-500 font-bold">設定後在達成前不可更改哦！</span>`, true, "確定設定", () => { state.goal = val; state.locked = true; save(); updateUI(); closeModal(); });
+        }
+
+        function triggerHeartEffect() {
+            const targetHeart = document.getElementById(`heart-target-${state.activeTab}`); if (!targetHeart) return;
+            const rect = targetHeart.getBoundingClientRect(); const p = document.createElement('div'); p.className = 'heart-particle pulse-active';
+            p.innerHTML = `<svg width="80" height="80" viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>`;
+            document.body.appendChild(p);
+            setTimeout(() => { p.classList.replace('pulse-active', 'fly-to-target'); p.style.left = (rect.left + rect.width/2) + 'px'; p.style.top = (rect.top + rect.height/2) + 'px'; p.style.transform = 'translate(-50%,-50%) scale(0.1)'; p.style.opacity = '0'; setTimeout(() => p.remove(), 800); }, 700);
+        }
+
+        function resetData() {
+            const icon = document.getElementById('modal-icon'); icon.classList.remove('text-caramel'); icon.classList.add('text-red-500');
+            showModal("確認清除嗎？(´;ω;`)", `財布君裡累積的點點滴滴<br>真的都要全部清空嗎？<br><span class="text-red-500 font-bold">此動作無法復原喔！</span>`, true, "忍痛清除", () => { localStorage.removeItem(KEY); location.reload(); });
+        }
+
+        function checkNotificationStatus() {
+            const btn = document.getElementById('notification-toggle');
+            if (state.notificationsEnabled && Notification.permission === "granted") { btn.innerText = "提醒已開啟 ✓"; btn.style.background = "var(--caramel)"; btn.style.color = "white"; }
+            else { btn.innerText = "開啟提醒功能"; btn.style.background = "transparent"; btn.style.color = "inherit"; state.notificationsEnabled = false; }
+        }
+
+        async function toggleNotifications() {
+            if (state.notificationsEnabled) { state.notificationsEnabled = false; save(); checkNotificationStatus(); return; }
+            const permission = await Notification.requestPermission();
+            if (permission === "granted") { state.notificationsEnabled = true; save(); checkNotificationStatus(); showModal("設定成功！", `財布君會準時找您唷！٩(ˊᗜˋ*)و`, false, "太棒了"); }
+            else { showModal("權限被拒絕 (´･_･`)", "請到系統設定中開啟權限。", false, "我知道了"); state.notificationsEnabled = false; save(); checkNotificationStatus(); }
+        }
+
+        function checkReminder() {
+            if (!state.notificationsEnabled || Notification.permission !== "granted") return;
+            const now = new Date(); const currentTime = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
+            if (currentTime === state.reminderTime) new Notification("存錢時間到囉！- ̗̀( ˶^ᵕ'˶)b", { body: "今天也要乖乖的把錢錢存下來！(و'ω')و" });
+        }
+
+        function showModal(title, desc, showCancel = true, confirmText = "確認", onConfirm = null) {
+            const modal = document.getElementById('modal'); document.getElementById('modal-title').innerText = title; document.getElementById('modal-desc').innerHTML = desc;
+            const cancelBtn = document.getElementById('modal-cancel-btn'); const confirmBtn = document.getElementById('modal-btn');
+            if (showCancel) cancelBtn.classList.remove('hidden'); else cancelBtn.classList.add('hidden');
+            confirmBtn.innerText = confirmText; confirmBtn.onclick = onConfirm || closeModal; modal.classList.add('active');
+        }
+
+        function closeModal() { document.getElementById('modal').classList.remove('active'); }
         window.onload = init;
     </script>
 </body>
 </html>
-
